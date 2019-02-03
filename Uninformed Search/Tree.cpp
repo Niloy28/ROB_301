@@ -8,7 +8,7 @@
 #include <stack>
 #include <queue>
 
-// necessary using declartions
+// necessary using declarations
 using std::vector;
 using std::stack;
 using std::queue;
@@ -20,15 +20,14 @@ struct Node
 {
 	char id;
 	int no_of_branches = 0;
-	unsigned weight = 0;
 	vector<Node*> branches;
 };
 
 class Tree
 {
 private:
-	vector<Node*> m_state_addr;
-	int m_no_of_states = 0;
+	vector<Node*> m_node_addr;
+	int m_no_of_nodes = 0;
 
 public:
 	Tree() = default;
@@ -40,42 +39,42 @@ public:
 
 		Node* curr_node;
 		// if(node_with_current_id_is_not_allocated)
-		//		create new node and assign the address to the respective index of stateAddr
+		//		create new node and assign the address to the respective index of m_node_addr
 		// else currNode = address_of_existing_node_with_same_id
-		if (m_state_addr[temp.id - 'A'] == nullptr) {
+		if (m_node_addr[temp.id - 'A'] == nullptr) {
 			curr_node = new Node;
 			curr_node->id = temp.id;
-			m_state_addr[curr_node->id - 'A'] = curr_node;
+			m_node_addr[curr_node->id - 'A'] = curr_node;
 		}
-		else curr_node = m_state_addr[temp.id - 'A'];
+		else curr_node = m_node_addr[temp.id - 'A'];
 
 		ss >> curr_node->no_of_branches;
 		// allocate memory to each branch of current node.
 		// if that branch is already allocated, assign that address to the branch.
 		// otherwise, create new Node* in that branch
-		// and assign address of the newly created branch to m_state_addr[respective index].
+		// and assign address of the newly created branch to m_node_addr[respective index].
 		for (int i = 0; i != curr_node->no_of_branches; ++i) {
 			char branch_id;
 
 			ss >> branch_id;
-			if (m_state_addr[branch_id - 'A'] != nullptr) {
-				curr_node->branches.push_back(m_state_addr[branch_id - 'A']);
+			if (m_node_addr[branch_id - 'A'] != nullptr) {
+				curr_node->branches.push_back(m_node_addr[branch_id - 'A']);
 			}
 			else {
 				curr_node->branches.push_back(new Node);
-				curr_node->branches[i]->id = branch_id;
-				m_state_addr[curr_node->branches[i]->id - 'A'] = curr_node->branches[i];
+				curr_node->branches.back()->id = branch_id;
+				m_node_addr[curr_node->branches.back()->id - 'A'] = curr_node->branches.back();
 			}
 		}
 	}
 
 	void read_file(fstream& fs)
 	{
-		fs >> m_no_of_states;
+		fs >> m_no_of_nodes;
 
 		// create "no_of_branches" of elements and assign nullptr to each.
 		// nullptr indicates that the Node has not yet been created.
-		m_state_addr.assign(m_no_of_states, nullptr);
+		m_node_addr.assign(m_no_of_nodes, nullptr);
 		fs.ignore(1, '\n');
 
 		stringstream file_string;
@@ -93,8 +92,8 @@ public:
 	bool search_by_depth(const char search_id)
 	{
 		stack<Node*> addr_stack;
-		vector<bool> is_visited(m_no_of_states, false);
-		addr_stack.push(m_state_addr[0]);
+		vector<bool> is_visited(m_no_of_nodes, false);
+		addr_stack.push(m_node_addr[0]);
 
 		Node* curr_node;
 		do {
@@ -115,8 +114,8 @@ public:
 	bool search_by_breadth(const char search_id)
 	{
 		queue<Node*> addr_queue;
-		vector<bool> is_visited(m_no_of_states, false);
-		addr_queue.push(m_state_addr[0]);
+		vector<bool> is_visited(m_no_of_nodes, false);
+		addr_queue.push(m_node_addr[0]);
 
 		Node* curr_node;
 		do {
