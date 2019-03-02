@@ -1,0 +1,20 @@
+19
+A 3 B C D
+B 2 E F
+C 2 G H
+D 2 I J
+E 2 K L
+F 1 M 
+G 2 N O
+H 1 P
+I 1 Q
+J 2 R S
+K 0 5
+L 0 4
+M 0 3
+N 0 6
+O 0 6
+P 0 7
+Q 0 5
+R 0 8
+S 0 6
