@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Agent.h"
+#include "Tree.h"
 #include <string>
 
 int main()
@@ -14,7 +15,7 @@ int main()
 	agent.read_file(file_name);
 
 	std::cout << "Maximum achievable result for maximizer: ";
-	std::cout << agent.mini_max() << std::endl;
+	std::cout << agent.expectimax() << std::endl;
 
 	return 0;
 }
